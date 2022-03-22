@@ -57,6 +57,23 @@ async function run() {
 			console.log(result);
 		});
 
+		app.put("/balance/:email", async (req, res) => {
+			const email = req.params.email;
+			const updatedBalamce = req.body;
+			const filter = { email: email };
+			const updateDoc = {
+				$set: { balance: updatedBalamce.upBalance },
+			};
+			const options = { upsert: true };
+			const result = await usersCollection.updateOne(
+				filter,
+				updateDoc,
+				options
+			);
+			res.json(result);
+			console.log(result);
+		});
+
 		app.put("/deposit/:email", async (req, res) => {
 			const email = req.params.email;
 			const updatedDeposit = req.body;
@@ -72,6 +89,24 @@ async function run() {
 			);
 			res.json(result);
 			// console.log(result);
+		});
+
+		app.put("/withdraw/:email", async (req, res) => {
+			const email = req.params.email;
+			const updatedWithdraw = req.body;
+			console.log(updatedWithdraw);
+			const filter = { email: email };
+			const updateDoc = {
+				$set: { balance: updatedWithdraw.newBalance },
+			};
+			const options = { upsert: true };
+			const result = await usersCollection.updateOne(
+				filter,
+				updateDoc,
+				options
+			);
+			res.json(result);
+			console.log(result);
 		});
 
 		app.put("/fpass/:email", async (req, res) => {
