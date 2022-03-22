@@ -91,10 +91,10 @@ async function run() {
 			// console.log(result);
 		});
 
-		app.put("/withdraw/:email", async (req, res) => {
+		app.put("/withdraw/user/:email", async (req, res) => {
 			const email = req.params.email;
 			const updatedWithdraw = req.body;
-			console.log(updatedWithdraw);
+			// console.log(updatedWithdraw);
 			const filter = { email: email };
 			const updateDoc = {
 				$set: { balance: updatedWithdraw.newBalance },
