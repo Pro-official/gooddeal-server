@@ -79,7 +79,11 @@ async function run() {
 			const updatedDeposit = req.body;
 			const filter = { email: email };
 			const updateDoc = {
-				$set: { balance: updatedDeposit.newBalance },
+				$set: {
+					balance: updatedDeposit.newBalance,
+					isActive: true,
+					displayName: updatedDeposit.name,
+				},
 			};
 			const options = { upsert: true };
 			const result = await usersCollection.updateOne(
@@ -91,7 +95,63 @@ async function run() {
 			// console.log(result);
 		});
 
-		app.put("/withdraw/user/:email", async (req, res) => {
+		app.put("/name/:email", async (req, res) => {
+			const email = req.params.email;
+			const updatedDeposit = req.body;
+			const filter = { email: email };
+			const updateDoc = {
+				$set: {
+					isActive: true,
+					displayName: updatedDeposit.name,
+				},
+			};
+			const options = { upsert: true };
+			const result = await usersCollection.updateOne(
+				filter,
+				updateDoc,
+				options
+			);
+			res.json(result);
+			// console.log(result);
+		});
+
+		app.put("/updatedata/:email", async (req, res) => {
+			const email = req.params.email;
+			const updatedDeposit = req.body;
+			const filter = { email: email };
+			const updateDoc = {
+				$set: {
+					balance: updatedDeposit.upBalance,
+				},
+			};
+			const options = { upsert: true };
+			const result = await usersCollection.updateOne(
+				filter,
+				updateDoc,
+				options
+			);
+			res.json(result);
+			// console.log(result);
+		});
+
+		app.put("/upbalance", async (req, res) => {
+			const updatedBalance = req.body;
+			console.log(updatedBalance);
+			const filter = { isActive: true };
+			const updateDoc = {
+				$set: { balance: updatedBalance.newBalance },
+			};
+			const options = { upsert: true };
+			const result = await usersCollection.updateMany(
+				filter,
+				updateDoc,
+				options
+			);
+			res.json(result);
+			// console.log(result);
+		});
+
+		app.put("/withdraw/:email", async (req, res) => {
 			const email = req.params.email;
 			const updatedWithdraw = req.body;
 			// console.log(updatedWithdraw);
@@ -106,7 +166,7 @@ async function run() {
 				options
 			);
 			res.json(result);
-			console.log(result);
+			// console.log(result);
 		});
 
 		app.put("/fpass/:email", async (req, res) => {
