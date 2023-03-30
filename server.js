@@ -5,12 +5,13 @@ require("dotenv").config();
 const { MongoClient, ServerApiVersion } = require("mongodb");
 // const ObjectId = require("mongodb").ObjectId;
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8000;
 app.use(cors());
 app.use(express.json());
 
-const DBUser = "good-deal";
-const DBPassword = "pxKPDJvkL9vuAwQ4";
+const DBUser = process.env.DBUser;
+const DBPassword = process.env.DBPassword;
+
 const uri = `mongodb+srv://${DBUser}:${DBPassword}@cluster0.qmcox.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
